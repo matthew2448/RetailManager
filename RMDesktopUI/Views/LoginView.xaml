@@ -30,14 +30,14 @@
         <TextBlock Grid.Row="1" Grid.Column="1" Margin="0 0 0 10">
             Username:
         </TextBlock>
-        <TextBox x:Name="userName" Grid.Row="1" Grid.Column="2" MinWidth="100" Margin="0 0 0 10"/>
+        <TextBox x:Name="UserName" Grid.Row="1" Grid.Column="2" MinWidth="100" Margin="0 0 0 10"/>
 
         <!-- Password Row -->
 
         <TextBlock Grid.Row="2" Grid.Column="1" Margin="0 0 0 10">
             Password:
         </TextBlock>
-        <TextBox x:Name="password" Grid.Row="2" Grid.Column="2" MinWidth="100" Margin="0 0 0 10"/>
+        <TextBox x:Name="Password" Grid.Row="2" Grid.Column="2" MinWidth="100" Margin="0 0 0 10"/>
 
         <!-- Login Button -->
         <Button Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Padding="20 5"

@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using RMDesktopUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,44 +10,67 @@ namespace RMDesktopUI.ViewModels
 {
     public class LoginViewModel : Screen
     {
-        private string _userName; 
-        private string _password;
+        private string _userName;// = "matthewyoung@gmail.com";
+        private string _password;// = "Pwd12345.";
+        private IAPIHelper _apiHelper;
+
+        public LoginViewModel(IAPIHelper apiHelper)
+        {
+            _apiHelper = apiHelper;
+        }
+        
+        public string Password
+        {
+            get { return _password; }
+            set
+            {
+                _password = value;
+                NotifyOfPropertyChange(() => Password);
+                NotifyOfPropertyChange(() => CanLogIn);
+            }
+        }
 
         public string UserName
         {
             get { return _userName; }
-            set { 
+            set
+            {
                 _userName = value;
                 NotifyOfPropertyChange(() => UserName);
+                NotifyOfPropertyChange(() => CanLogIn);
             }
         }
 
-        public string Password
+        public bool CanLogIn
         {
-            get { return _password; }
-            set { 
-                _password = value;
-                NotifyOfPropertyChange(() => Password);
-                //CanLogIn(UserName, Password);
-            }
-        }
-
-        public bool CanLogIn(string userName, string password)
-        {
-            bool output = false;
-
-            if(userName.Length > 0 && password.Length > 0)
+            get
             {
-                output = true;
+                bool output = false;
+
+                if (UserName?.Length > 0 && Password?.Length > 0)
+                {
+                    output = true;
+                }
+
+                return output;
             }
-
-            return output;
-
         }
 
-        public void LogIn(string userName, string password)
+        public async Task LogIn()
         {
-            Console.WriteLine();
+            try
+            {
+                var result = await _apiHelper.Authenticate(UserName, Password);
+
+                // TODO Capture more info on User
+                //await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
+
+               
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
