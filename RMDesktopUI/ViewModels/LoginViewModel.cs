@@ -40,6 +40,33 @@ namespace RMDesktopUI.ViewModels
                 NotifyOfPropertyChange(() => CanLogIn);
             }
         }
+        private Boolean _isErrorVisible;
+
+        public Boolean IsErrorVisible
+        {
+            get 
+            {
+                bool output = false;
+                if (ErrorMessage?.Length > 0)
+                {
+                    return true;
+                }       
+                return output;
+                //return _isErrorVisible; 
+            }
+        }
+        private string _errorMessage;
+
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set {
+                _errorMessage = value;
+                NotifyOfPropertyChange(() => IsErrorVisible);
+                NotifyOfPropertyChange(() => ErrorMessage);
+                
+            }
+        }
 
         public bool CanLogIn
         {
@@ -60,16 +87,18 @@ namespace RMDesktopUI.ViewModels
         {
             try
             {
+                ErrorMessage = "";
                 var result = await _apiHelper.Authenticate(UserName, Password);
 
-                // TODO Capture more info on User
+                
                 //await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
 
                
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.Message);
+                ErrorMessage = ex.Message;
             }
         }
     }
