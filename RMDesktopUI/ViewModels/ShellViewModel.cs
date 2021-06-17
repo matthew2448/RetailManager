@@ -28,7 +28,7 @@ namespace RMDesktopUI.ViewModels
             _events.Subscribe(this);
 
             //ActivateItemAsync(_loginVM);
-            ActivateItemAsync(_container.GetInstance<LoginViewModel>());
+            ActivateItemAsync(IoC.Get<LoginViewModel>());
         }
 
         public Task HandleAsync(LogOnEvent message, CancellationToken cancellationToken)
