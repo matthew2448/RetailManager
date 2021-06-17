@@ -5,10 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RMDesktopUI.Views"
              mc:Ignorable="d" Background="White" FontSize="24"
+             d:DesignHeight="550" d:DesignWidth="800"
              >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -28,7 +30,7 @@
         <!--Header-->
         <TextBlock Text="Sales Page" FontSize="48" Grid.Row="0"
                    Grid.Column="0" Grid.ColumnSpan="3"
-                   Margin="0 0 0 30" />
+                   Margin="0 0 0 20" />
         <!--Column 0-->
         <TextBlock Text="Items" Grid.Row="1" Grid.Column="0"/>
         <ListBox x:Name="Products" Grid.Row="2" Grid.Column="0" 
@@ -42,7 +44,7 @@
         </ListBox>
         <!--Column 1-->
         <StackPanel Orientation="Vertical" Grid.Column="1"
-                    Grid.Row="1" Margin="20 0">
+                    Grid.Row="2" Margin="20 0">
             <TextBlock Text="Quantity" />
             <TextBox x:Name="ItemQuantity" MinWidth="100" Margin="0 0 0 10"/>
             <Button x:Name="AddToCart" Content="Add to Cart" Margin="0 0 0 30"
