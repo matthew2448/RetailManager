@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using TRMDesktopUI.Library.Api;
 
 namespace RMDesktopUI
 {
@@ -30,7 +31,9 @@ namespace RMDesktopUI
         protected override void Configure()
         {
             _container.Instance(_container)
-                .PerRequest<IProductEndpoint, ProductEndpoint>();
+                .PerRequest<IProductEndpoint, ProductEndpoint>()
+               .PerRequest<ISaleEndpoint, SaleEndpoint>();
+
 
             _container
                 .Singleton<IWindowManager, WindowManager>()

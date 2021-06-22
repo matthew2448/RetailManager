@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TRMDesktopUI.Library.Api;
 
 namespace RMDesktopUI.ViewModels
 {
@@ -15,11 +16,14 @@ namespace RMDesktopUI.ViewModels
     {
         IProductEndpoint _productEnpoint;
         IConfigHelper _configHelper;
+        ISaleEndpoint _saleEndpoint;
         public SalesViewModel(IProductEndpoint productEnpoint, 
-            IConfigHelper configHelper)
+            IConfigHelper configHelper,
+            ISaleEndpoint saleEndpoint)
         {
             _productEnpoint = productEnpoint;
             _configHelper = configHelper;
+            _saleEndpoint = saleEndpoint;
 
 
         }
@@ -168,7 +172,10 @@ namespace RMDesktopUI.ViewModels
                 bool output = false;
 
                 //If something is selected
-
+                if(Cart.Count > 0)
+                {
+                    output = true;
+                }
                 return output;
             }
         }
@@ -177,6 +184,7 @@ namespace RMDesktopUI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
         }
 
         public void AddToCart()
@@ -204,13 +212,27 @@ namespace RMDesktopUI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
             NotifyOfPropertyChange(() => existingItem.DisplayText);
 
         }
 
-        public void CheckOut()
+        public async Task CheckOut()
         {
+            SaleModel sale = new SaleModel();
 
+            foreach (var item in Cart)
+            {
+                sale.SaleDetails.Add(new SaleDetailModel
+                {
+                    ProductId = item.Product.Id,
+                    Quantity = item.QuantityInCart
+                });
+            }
+
+            await _saleEndpoint.PostSale(sale);
+
+            //await ResetSalesViewModel();
         }
     }
 }
