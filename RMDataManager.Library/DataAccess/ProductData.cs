@@ -14,11 +14,19 @@ namespace RMDataManager.Library.DataAccess
         {
             SqlDataAccess sql = new SqlDataAccess();
 
-            
-
             var output = sql.LoadData <ProductModel,
                 dynamic>("dbo.spProduct_GetAll", new { }, "RmData");
             
+            return output;
+        }
+
+        public ProductModel GetProductById(int productid)
+        {
+            SqlDataAccess sql = new SqlDataAccess();
+
+            var output = sql.LoadData<ProductModel,
+                dynamic>("dbo.spProduct_GetById", new { Id = productid}, "RmData").FirstOrDefault();
+
             return output;
         }
     }
