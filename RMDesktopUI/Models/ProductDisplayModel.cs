@@ -18,7 +18,8 @@ namespace RMDesktopUI.Models
         public int QuantityInStock
         {
             get { return _quantityInStock; }
-            set { 
+            set
+            {
                 _quantityInStock = value;
                 CallPropertyChanged(nameof(QuantityInStock));
             }
@@ -27,9 +28,9 @@ namespace RMDesktopUI.Models
         public bool IsTaxable { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void CallPropertyChanged(string propertyName)
+        public void CallPropertyChanged(string propertName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertName));
         }
     }
 }

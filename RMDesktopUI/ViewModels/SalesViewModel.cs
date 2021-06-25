@@ -64,6 +64,17 @@ namespace RMDesktopUI.ViewModels
             }
         }
 
+        private async Task ResetSalesViewModel()
+        {
+            Cart = new BindingList<CartItemDisplayModel>();
+            await LoadProducts();
+
+            NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
+        }
+
         private CartItemDisplayModel _selecetedCartItem;
 
         public CartItemDisplayModel SelecetedCartItem
@@ -191,7 +202,7 @@ namespace RMDesktopUI.ViewModels
             {
                 bool output = false;
 
-                if (SelecetedCartItem != null && SelecetedCartItem?.Product.QuantityInStock > 0)
+                if (SelecetedCartItem != null && SelecetedCartItem?.QuantityInCart > 0)
                 {
                     output = true;
                 }
@@ -201,14 +212,15 @@ namespace RMDesktopUI.ViewModels
         }
         public void RemoveFromCart()
         {
+            SelecetedCartItem.Product.QuantityInStock += 1;
             if (SelecetedCartItem.QuantityInCart > 1)
             {
                 SelecetedCartItem.QuantityInCart -= 1;
-                SelecetedCartItem.Product.QuantityInStock += 1;
+                //SelecetedCartItem.Product.QuantityInStock += 1;
             }
             else
             {
-                SelecetedCartItem.Product.QuantityInStock += 1;
+                
                 Cart.Remove(SelecetedCartItem);
             }
 
@@ -216,6 +228,7 @@ namespace RMDesktopUI.ViewModels
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
             NotifyOfPropertyChange(() => CanCheckOut);
+            NotifyOfPropertyChange(() => CanAddToCart);
         }
 
         public void AddToCart()
@@ -262,7 +275,7 @@ namespace RMDesktopUI.ViewModels
 
             await _saleEndpoint.PostSale(sale);
 
-            //await ResetSalesViewModel();
+            await ResetSalesViewModel();
         }
     }
 }

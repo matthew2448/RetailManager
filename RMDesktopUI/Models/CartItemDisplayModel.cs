@@ -10,29 +10,28 @@ namespace RMDesktopUI.Models
 {
     public class CartItemDisplayModel : INotifyPropertyChanged
     {
+
         public ProductDisplayModel Product { get; set; }
         private int _quantityInCart;
 
         public int QuantityInCart
         {
             get { return _quantityInCart; }
-            set { 
+            set
+            {
                 _quantityInCart = value;
                 CallPropertyChanged(nameof(QuantityInCart));
                 CallPropertyChanged(nameof(DisplayText));
             }
         }
 
-
-        public string DisplayText
-        {
-            get { return $"{Product.ProductName} ({QuantityInCart})"; }
-        }
+        public string DisplayText => $"{ Product.ProductName } ({ QuantityInCart })";
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void CallPropertyChanged(string propertyName)
+
+        public void CallPropertyChanged(string propertName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertName));
         }
     }
 }
