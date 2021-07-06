@@ -50,6 +50,10 @@ namespace RMDesktopUI.ViewModels
         {
             TryCloseAsync();
         }
+        public void UserManagement()
+        {
+            ActivateItemAsync(IoC.Get<UserDisplayViewModel>());
+        }
         public Boolean IsLoggedIn
         {
             get
