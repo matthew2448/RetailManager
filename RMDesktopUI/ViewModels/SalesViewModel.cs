@@ -7,9 +7,11 @@ using RMDesktopUI.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using TRMDesktopUI.Library.Api;
 
 namespace RMDesktopUI.ViewModels
@@ -20,20 +22,49 @@ namespace RMDesktopUI.ViewModels
         IConfigHelper _configHelper;
         ISaleEndpoint _saleEndpoint;
         IMapper _mapper;
+        StatusInfoViewModel _status;
+        private readonly IWindowManager _window;
         public SalesViewModel(IProductEndpoint productEnpoint,
             IConfigHelper configHelper,
             ISaleEndpoint saleEndpoint,
-            IMapper mapper)
+            IMapper mapper,
+            StatusInfoViewModel status,
+            IWindowManager window)
         {
             _productEnpoint = productEnpoint;
             _configHelper = configHelper;
             _saleEndpoint = saleEndpoint;
             _mapper = mapper;
+            _status = status;
+            _window = window;
         }
         protected override async void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
-            await LoadProducts();
+            try
+            {
+                await LoadProducts();
+            }
+            catch (Exception ex)
+            {
+                dynamic settings = new ExpandoObject();
+                settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                settings.ResizeMode = ResizeMode.NoResize;
+                settings.Title = "System Error";
+
+                if(ex.Message == "Unauthorized")
+                {
+                    _status.UpdateMessage("Unathorized Access", "You do not have permession");
+                    _window.ShowDialogAsync(_status, null, settings);
+                }
+                else
+                {
+                    _status.UpdateMessage("Fatal Error", ex.Message);
+                    _window.ShowDialogAsync(_status, null, settings);
+                }
+
+                TryCloseAsync();
+            }
         }
         private async Task LoadProducts()
         {
