@@ -1,4 +1,5 @@
-﻿using RMDesktopUI.Library.Models;
+﻿using Newtonsoft.Json;
+using RMDesktopUI.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,11 +52,14 @@ namespace RMDesktopUI.Library.Api
         public async Task AddUserToRole(string userId, string roleName)
         {
             var data = new { userId, roleName };
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/User/Admin/AddRole", data))
+            //HttpResponseMessage r = await _apiHelper.ApiClient.PostAsync("api/User/Admin/AddRole", data);
+
+            //HttpResponseMessage response2 = await _apiHelper.ApiClient.PostAsync("api/User/Admin/AddRole");
+
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("api/User/Admin/AddRole", data))
             {
                 if (response.IsSuccessStatusCode == false)
                 {
-                 
                     throw new Exception(response.ReasonPhrase);
                 }
             }
@@ -64,7 +68,7 @@ namespace RMDesktopUI.Library.Api
         public async Task RemoveUserFromRole(string userId, string roleName)
         {
             var data = new { userId, roleName };
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/User/Admin/RemoveRole", data))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("api/User/Admin/RemoveRole", data))
             {
                 if (response.IsSuccessStatusCode == false)
                 {

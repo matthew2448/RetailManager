@@ -38,7 +38,9 @@ namespace RMDesktopUI.ViewModels
             set
             {
                 _selectedUser = value;
+
                 SelectedUserName = value.Email;
+                //SelectedUserId = value.Id;
 
                 UserRoles.Clear();
                 UserRoles = new BindingList<string>(value.Roles.Select(x => x.Value).ToList());
@@ -142,7 +144,7 @@ namespace RMDesktopUI.ViewModels
                     _window.ShowDialogAsync(_status, null, settings);
                 }
 
-                TryCloseAsync();
+                await TryCloseAsync();
             }
         }
         private async Task LoadUsers()

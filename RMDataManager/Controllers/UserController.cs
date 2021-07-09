@@ -73,7 +73,7 @@ namespace RMDataManager.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpGet]
+        [HttpPost]
         [Route("api/User/Admin/AddRole")]
         public void AddARole(UserRolePairModel pairing)
         {
@@ -82,12 +82,13 @@ namespace RMDataManager.Controllers
                 var userStore = new UserStore<ApplicationUser>(context);
                 var userManager = new UserManager<ApplicationUser>(userStore);
 
-                userManager.AddToRole(pairing.UserId, pairing.RoleName);
+                //userManager.AddToRole(pairing.UserId, pairing.RoleName);
+                userManager.AddToRoleAsync(pairing.UserId, pairing.RoleName);
             }
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet]
+        [HttpPost]
         [Route("api/User/Admin/RemoveRole")]
         public void RemoveARole(UserRolePairModel pairing)
         {

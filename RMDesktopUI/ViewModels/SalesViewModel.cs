@@ -63,7 +63,7 @@ namespace RMDesktopUI.ViewModels
                     _window.ShowDialogAsync(_status, null, settings);
                 }
 
-                TryCloseAsync();
+                await TryCloseAsync();
             }
         }
         private async Task LoadProducts()
