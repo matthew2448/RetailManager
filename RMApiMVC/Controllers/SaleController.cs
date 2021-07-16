@@ -24,6 +24,7 @@ namespace RMApiMVC.Controllers
             _config = config;
         }
         [Authorize(Roles = "Cashier")]
+        [HttpPost]
         public void Post(SaleModel sale)
         {
             //SaleData data = new SaleData();
@@ -37,6 +38,7 @@ namespace RMApiMVC.Controllers
         }
         [Authorize(Roles = "Admin,Manager")]
         [Route("GetSalesReport")]
+        [HttpGet]
         public List<SaleReportModel> GetSalesReport()
         {
 

@@ -22,6 +22,7 @@ namespace RMApiMVC.Controllers
         {
             _config = config;
         }
+        [HttpGet]
         public List<ProductModel> Get()
         {
             //Grabs the user's unique identity 
