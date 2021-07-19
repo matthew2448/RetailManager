@@ -18,32 +18,38 @@ namespace RMApiMVC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    
     public class UserController : ControllerBase
     {
 
         private readonly ApplicationDbContext _context;
 
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IConfiguration _config;
+        private readonly IUserData _userData;
 
         public UserController(ApplicationDbContext context, UserManager<IdentityUser> userManager,
-            IConfiguration config)
+            IUserData userData)
         {
             _context = context;
             _userManager = userManager;
-            _config = config;
+            
+            _userData = userData;
         }
         [HttpGet]
         public UserModel GetById()
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+            //string userEmail = applicationUser?.Email; // will give the user's Email
+            string email = User.FindFirstValue(ClaimTypes.Email); // Always null. Not returning logged in user's Email
+            string userName = User.FindFirstValue(ClaimTypes.Name); // Returning logged in user's UserName
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // // Returning logged in user's Id
 
-            UserData data = new UserData(_config);
 
-            return data.GetUserById(userId).First();
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            return _userData.GetUserById(userId).First();
         }
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("Admin/GetAllUsers")]
         public List<ApplicationUserModel> GetAllUsers()
